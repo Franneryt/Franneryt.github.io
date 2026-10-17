@@ -3,792 +3,1063 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Iglesia Cristiana Desahaciendo las Obras del Diablo</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+<title>ICDNJ · Reserva de Asientos</title>
 <style>
-body { font-family: 'Poppins', sans-serif; }
-h1,h2,h3 { font-family: 'Cinzel', serif; letter-spacing: 1px; }
-.animate-bg { background: radial-gradient(circle at 20% 80%, rgba(99,102,241,0.45), transparent 60%), radial-gradient(circle at 80% 20%, rgba(236,72,153,0.45), transparent 60%), radial-gradient(circle at 50% 50%, rgba(255,215,0,0.45), transparent 65%); animation: bgMove 12s ease-in-out infinite alternate; filter: blur(60px); }
-@keyframes bgMove { from { transform: translateY(0); } to { transform: translateY(-140px); } }
-.glass { backdrop-filter: blur(25px); background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)); border: 1px solid rgba(255,215,0,0.45); }
-.card-hover:hover { transform: translateY(-10px) scale(1.06); box-shadow: 0 30px 70px rgba(255,215,0,0.35); }
-.icon-glow { filter: drop-shadow(0 0 16px rgba(255,215,0,0.9)); animation: float 3s ease-in-out infinite; }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-.title-glow { text-shadow: 0 0 25px rgba(255,215,0,0.9); }
-.pastor-card { border: 2px solid rgba(255,215,0,0.8); box-shadow: 0 0 30px rgba(255,215,0,0.4); }
-.lider-card { border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 0 20px rgba(255,255,255,0.25); }
-.section-title { font-size: 3rem; text-align: center; margin-bottom: 3rem; }
-/* Nuevos estilos para las funciones agregadas */
-.offering-form input, .offering-form select, .offering-form textarea { 
-    background: rgba(255,255,255,0.1); 
-    border: 1px solid rgba(255,215,0,0.3); 
-    color: white; 
-    padding: 12px; 
-    border-radius: 10px; 
-    width: 100%;
+:root {
+  --azul-noche: #061229; --azul-profundo: #0a1f44; --azul-medio: #143a72;
+  --azul-suave: #1e4a8a; --azul-claro: #2d5fa8; --dorado: #d4af37;
+  --dorado-claro: #f4e5a1; --dorado-oscuro: #b8932c; --blanco: #f8f9fb;
+  --gris-claro: #e4e7ec; --gris-medio: #a8b2c4; --rojo: #8b1a1a;
+  --rojo-claro: #c94a4a; --verde: #2d7a4a; --naranja: #c47a1a;
+  --sombra-sm: 0 4px 12px rgba(0,0,0,0.2);
+  --sombra-md: 0 10px 30px rgba(0,0,0,0.35);
+  --sombra-lg: 0 20px 60px rgba(0,0,0,0.5);
+  --radio-sm: 8px; --radio-md: 12px; --radio-lg: 18px;
 }
-.offering-form input:focus, .offering-form select:focus, .offering-form textarea:focus {
-    outline: none;
-    border-color: rgba(255,215,0,0.8);
-    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: radial-gradient(ellipse at top, rgba(30,74,138,0.35), transparent 60%),
+              linear-gradient(180deg, var(--azul-profundo), var(--azul-noche));
+  background-attachment: fixed; min-height: 100vh; color: var(--blanco);
+  line-height: 1.6; padding: 20px 16px 60px; -webkit-font-smoothing: antialiased;
 }
-.prayer-countdown {
-    background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(99,102,241,0.2));
-    border: 2px solid rgba(255,215,0,0.6);
+.header { text-align: center; margin-bottom: 30px; position: relative; }
+.header__logo { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.header__cruz { font-size: 2rem; color: var(--dorado); filter: drop-shadow(0 0 15px rgba(212,175,55,0.6)); animation: brillo 3s ease-in-out infinite; }
+@keyframes brillo { 0%,100% { filter: drop-shadow(0 0 15px rgba(212,175,55,0.6)); } 50% { filter: drop-shadow(0 0 25px rgba(212,175,55,0.9)); } }
+.header__titulo { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--dorado-claro), var(--dorado), var(--dorado-oscuro));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.header__subtitulo { color: var(--gris-medio); font-size: 0.95rem; letter-spacing: 0.5px; margin-top: 4px; }
+.header__versiculo { color: var(--gris-medio); font-style: italic; font-size: 0.82rem; margin-top: 10px; opacity: 0.8; }
+.contenedor { max-width: 1100px; margin: 0 auto; }
+.panel { background: rgba(255,255,255,0.035); border: 1px solid rgba(212,175,55,0.22); border-radius: var(--radio-lg); padding: 28px 26px; backdrop-filter: blur(10px); box-shadow: var(--sombra-lg); }
+.nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.nav__btn { padding: 9px 18px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.25); color: var(--gris-claro); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.25s; font-family: inherit; }
+.nav__btn:hover { background: rgba(212,175,55,0.15); border-color: var(--dorado); color: var(--dorado-claro); }
+.nav__btn.activo { background: linear-gradient(135deg, var(--dorado), var(--dorado-oscuro)); color: var(--azul-profundo); border-color: var(--dorado); font-weight: 600; box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
+.estado { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 26px; }
+.estado__item { background: linear-gradient(135deg, rgba(20,58,114,0.7), rgba(10,31,68,0.7)); border-left: 3px solid var(--dorado); border-radius: var(--radio-sm); padding: 14px 18px; position: relative; overflow: hidden; }
+.estado__item::before { content: ''; position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%); border-radius: 50%; transform: translate(30%, -30%); }
+.estado__label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gris-medio); display: block; margin-bottom: 4px; font-weight: 500; }
+.estado__valor { font-size: 1.6rem; font-weight: 800; color: var(--dorado); line-height: 1.2; }
+.estado__sub { font-size: 0.72rem; color: var(--gris-medio); margin-top: 2px; }
+.progreso { width: 100%; height: 6px; background: rgba(0,0,0,0.35); border-radius: 999px; overflow: hidden; margin-bottom: 24px; }
+.progreso__barra { height: 100%; background: linear-gradient(90deg, var(--dorado), var(--dorado-claro)); border-radius: 999px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 12px rgba(212,175,55,0.6); }
+.pulpito { text-align: center; margin: 0 auto 30px; max-width: 60%; padding: 14px; background: linear-gradient(90deg, transparent, var(--dorado), transparent); color: var(--azul-profundo); font-weight: 800; letter-spacing: 10px; font-size: 0.85rem; border-radius: var(--radio-sm); box-shadow: 0 0 35px rgba(212,175,55,0.45); position: relative; }
+.pulpito::before, .pulpito::after { content: '✦'; position: absolute; top: 50%; transform: translateY(-50%); color: var(--dorado); font-size: 1rem; }
+.pulpito::before { left: -20px; } .pulpito::after { right: -20px; }
+.grid-wrap { margin-bottom: 20px; position: relative; }
+.grid-pasillo { display: grid; grid-template-columns: 1fr 24px 1fr; gap: 0; }
+.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; }
+.pasillo { display: flex; align-items: center; justify-content: center; color: var(--gris-medio); font-size: 0.6rem; letter-spacing: 3px; writing-mode: vertical-rl; text-orientation: mixed; opacity: 0.4; }
+.asiento { aspect-ratio: 1; border-radius: var(--radio-sm); border: 1.5px solid rgba(212,175,55,0.5); background: linear-gradient(160deg, rgba(30,74,138,0.6), rgba(20,58,114,0.6)); color: var(--dorado-claro); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; user-select: none; font-family: inherit; position: relative; }
+.asiento:hover:not(.asiento--ocupado):not(.asiento--bloqueado) { background: linear-gradient(160deg, var(--dorado), var(--dorado-oscuro)); color: var(--azul-profundo); border-color: var(--dorado-claro); transform: translateY(-3px) scale(1.08); box-shadow: 0 8px 22px rgba(212,175,55,0.5); z-index: 2; }
+.asiento--ocupado { background: linear-gradient(160deg, #6a1818, #4a1010); border-color: var(--rojo); color: #c9a8a8; cursor: not-allowed; opacity: 0.8; }
+.asiento--bloqueado { background: linear-gradient(160deg, #3a3a3a, #1a1a1a); border-color: #555; color: #888; cursor: not-allowed; opacity: 0.6; }
+.asiento--seleccionado { background: linear-gradient(160deg, var(--dorado-claro), var(--dorado)); color: var(--azul-profundo); border-color: #fff; transform: scale(1.12); box-shadow: 0 0 25px var(--dorado), 0 0 45px rgba(212,175,55,0.4); z-index: 3; }
+.asiento--preferencial { border-color: rgba(212,175,55,0.9); border-width: 2px; }
+.asiento--preferencial::after { content: '★'; position: absolute; top: 2px; right: 3px; font-size: 0.5rem; color: var(--dorado); opacity: 0.7; }
+.asiento--movilidad::after { content: '♿'; position: absolute; bottom: 1px; right: 2px; font-size: 0.55rem; color: var(--dorado); }
+.leyenda { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; font-size: 0.8rem; color: var(--gris-medio); margin-top: 20px; padding-top: 18px; border-top: 1px dashed rgba(212,175,55,0.2); }
+.leyenda__item { display: flex; align-items: center; gap: 8px; }
+.leyenda__color { width: 16px; height: 16px; border-radius: 4px; border: 2px solid var(--dorado); flex-shrink: 0; }
+.leyenda__color--libre { background: rgba(30,74,138,0.8); }
+.leyenda__color--ocupado { background: var(--rojo); border-color: var(--rojo); }
+.leyenda__color--seleccionado { background: var(--dorado); }
+.leyenda__color--bloqueado { background: #3a3a3a; border-color: #555; }
+.controles { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.controles input, .controles select { flex: 1; min-width: 200px; padding: 11px 15px; border-radius: var(--radio-sm); border: 1px solid rgba(212,175,55,0.3); background: rgba(0,0,0,0.3); color: var(--blanco); font-size: 0.9rem; font-family: inherit; }
+.controles input:focus, .controles select:focus { outline: none; border-color: var(--dorado); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }
+.controles input::placeholder { color: var(--gris-medio); }
+.acciones { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 22px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border: none; border-radius: var(--radio-sm); font-size: 0.9rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.22s; letter-spacing: 0.4px; white-space: nowrap; }
+.btn--primario { background: linear-gradient(135deg, var(--dorado), var(--dorado-oscuro)); color: var(--azul-profundo); width: 100%; box-shadow: 0 4px 14px rgba(212,175,55,0.35); }
+.btn--primario:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,175,55,0.5); }
+.btn--primario:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.btn--secundario { background: rgba(255,255,255,0.04); border: 1px solid rgba(212,175,55,0.35); color: var(--dorado-claro); }
+.btn--secundario:hover { background: rgba(212,175,55,0.12); border-color: var(--dorado); transform: translateY(-1px); }
+.btn--peligro { background: rgba(139,26,26,0.15); border: 1px solid rgba(139,26,26,0.6); color: #e4a4a4; }
+.btn--peligro:hover { background: rgba(139,26,26,0.35); border-color: var(--rojo); }
+.btn--exito { background: rgba(45,122,74,0.15); border: 1px solid rgba(45,122,74,0.6); color: #8ed4a8; }
+.btn--exito:hover { background: rgba(45,122,74,0.35); }
+.btn--sm { padding: 7px 14px; font-size: 0.78rem; }
+.modal { position: fixed; inset: 0; background: rgba(6,18,41,0.88); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 200; overflow-y: auto; }
+.modal.activo { display: flex; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal__caja { width: 100%; max-width: 480px; background: linear-gradient(160deg, var(--azul-medio), var(--azul-profundo)); border: 1px solid rgba(212,175,55,0.4); border-radius: var(--radio-lg); padding: 30px 28px; box-shadow: var(--sombra-lg); animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; max-height: 90vh; overflow-y: auto; }
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal__cerrar { position: absolute; top: 14px; right: 18px; background: transparent; border: none; color: var(--gris-medio); font-size: 1.6rem; cursor: pointer; line-height: 1; transition: color 0.2s; }
+.modal__cerrar:hover { color: var(--dorado); }
+.modal__titulo { font-size: 1.4rem; color: var(--dorado); margin-bottom: 6px; font-weight: 700; }
+.modal__sub { font-size: 0.88rem; color: var(--gris-medio); margin-bottom: 22px; }
+.modal__sub b { color: var(--dorado-claro); font-size: 1.05rem; }
+.campo { width: 100%; padding: 13px 15px; margin-bottom: 13px; border-radius: var(--radio-sm); border: 1px solid rgba(212,175,55,0.3); background: rgba(0,0,0,0.28); color: var(--blanco); font-size: 0.95rem; font-family: inherit; transition: all 0.2s; }
+.campo:focus { outline: none; border-color: var(--dorado); background: rgba(0,0,0,0.42); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }
+.campo::placeholder { color: var(--gris-medio); }
+.campo-label { display: block; font-size: 0.78rem; color: var(--gris-medio); margin-bottom: 6px; letter-spacing: 0.3px; font-weight: 500; }
+.campo-grupo { margin-bottom: 14px; }
+.campo-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tarjeta-reserva { background: linear-gradient(160deg, rgba(20,58,114,0.9), rgba(10,31,68,0.9)); border: 1px solid rgba(212,175,55,0.4); border-radius: var(--radio-md); padding: 22px; margin-top: 16px; text-align: center; }
+.tarjeta-reserva__codigo { font-family: 'Courier New', monospace; font-size: 1.6rem; color: var(--dorado); letter-spacing: 3px; font-weight: 700; margin: 12px 0; }
+.tarjeta-reserva__qr { width: 160px; height: 160px; background: #fff; padding: 8px; border-radius: 10px; margin: 16px auto; display: flex; align-items: center; justify-content: center; }
+.tarjeta-reserva__qr canvas, .tarjeta-reserva__qr img { width: 100%; height: 100%; }
+.tarjeta-reserva__dato { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(212,175,55,0.2); font-size: 0.88rem; }
+.tarjeta-reserva__dato:last-child { border-bottom: none; }
+.tarjeta-reserva__dato span:first-child { color: var(--gris-medio); }
+.tarjeta-reserva__dato span:last-child { color: var(--dorado-claro); font-weight: 600; }
+.admin-seccion { display: none; animation: fadeIn 0.3s; }
+.admin-seccion.activa { display: block; }
+.tabla-wrap { overflow-x: auto; margin-top: 18px; border-radius: var(--radio-md); border: 1px solid rgba(212,175,55,0.2); }
+.tabla { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.tabla thead { background: rgba(20,58,114,0.7); }
+.tabla th { color: var(--dorado); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; padding: 12px 14px; text-align: left; border-bottom: 1px solid rgba(212,175,55,0.3); white-space: nowrap; }
+.tabla td { padding: 11px 14px; border-bottom: 1px solid rgba(212,175,55,0.08); color: var(--gris-claro); vertical-align: middle; }
+.tabla tbody tr { transition: background 0.15s; }
+.tabla tbody tr:hover { background: rgba(212,175,55,0.06); }
+.tabla tbody tr:last-child td { border-bottom: none; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.badge--activa { background: rgba(45,122,74,0.25); color: #8ed4a8; }
+.badge--cancelada { background: rgba(139,26,26,0.25); color: #e4a4a4; }
+.badge--asistio { background: rgba(212,175,55,0.25); color: var(--dorado-claro); }
+.badge--ocupado { background: rgba(139,26,26,0.25); color: #e4a4a4; }
+.badge--libre { background: rgba(45,122,74,0.25); color: #8ed4a8; }
+.vacio { text-align: center; padding: 40px 20px; color: var(--gris-medio); font-style: italic; font-size: 0.9rem; }
+.toast { position: fixed; top: 24px; left: 50%; transform: translate(-50%, -120px); padding: 14px 26px; border-radius: var(--radio-md); font-weight: 600; font-size: 0.9rem; z-index: 1000; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: var(--sombra-lg); max-width: 90vw; text-align: center; pointer-events: none; }
+.toast--visible { transform: translate(-50%, 0); }
+.toast--ok { background: linear-gradient(135deg, var(--dorado), var(--dorado-oscuro)); color: var(--azul-profundo); }
+.toast--error { background: linear-gradient(135deg, var(--rojo-claro), var(--rojo)); color: #fff; }
+.toast--info { background: linear-gradient(135deg, var(--azul-suave), var(--azul-medio)); color: var(--blanco); }
+.grafico-barras { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.grafico-fila { display: grid; grid-template-columns: 120px 1fr 60px; gap: 12px; align-items: center; font-size: 0.85rem; }
+.grafico-label { color: var(--gris-medio); }
+.grafico-barra { height: 22px; background: rgba(0,0,0,0.35); border-radius: 999px; overflow: hidden; }
+.grafico-barra__fill { height: 100%; background: linear-gradient(90deg, var(--dorado), var(--dorado-claro)); border-radius: 999px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.grafico-valor { color: var(--dorado-claro); font-weight: 700; text-align: right; }
+.pie { text-align: center; margin-top: 40px; color: var(--gris-medio); font-style: italic; font-size: 0.85rem; opacity: 0.75; }
+.pie strong { color: var(--dorado); font-style: normal; display: block; margin-top: 6px; font-size: 0.8rem; letter-spacing: 1px; }
+@media (max-width: 720px) {
+  .panel { padding: 20px 16px; }
+  .grid-pasillo { grid-template-columns: 1fr 14px 1fr; }
+  .grid { gap: 6px; }
+  .asiento { font-size: 0.7rem; }
+  .pulpito { max-width: 85%; letter-spacing: 6px; font-size: 0.75rem; }
+  .leyenda { gap: 14px; font-size: 0.72rem; }
+  .estado { grid-template-columns: repeat(2, 1fr); }
+  .estado__valor { font-size: 1.35rem; }
+  .campo-fila { grid-template-columns: 1fr; }
+  .grafico-fila { grid-template-columns: 90px 1fr 50px; font-size: 0.78rem; }
 }
-.countdown-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-shadow: 0 0 15px rgba(255,215,0,0.8);
+@media (max-width: 420px) {
+  .estado { grid-template-columns: 1fr 1fr; }
+  .acciones { flex-direction: column; }
+  .acciones .btn { width: 100%; }
+  .nav__btn { padding: 8px 14px; font-size: 0.78rem; }
 }
-.highlighted-text {
-    background: linear-gradient(90deg, rgba(255,215,0,0.3), rgba(255,215,0,0.1));
-    padding: 2px 8px;
-    border-radius: 5px;
-}
-/* Estilo para el calendario */
-.calendar-day {
-    transition: all 0.3s ease;
-}
-.calendar-day:hover {
-    background: rgba(255,215,0,0.3);
-    transform: scale(1.1);
-}
-.calendar-event {
-    background: rgba(99,102,241,0.3);
-    border-left: 4px solid rgba(255,215,0,0.8);
-}
+@keyframes pulso { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+.pulso { animation: pulso 2s ease-in-out infinite; }
+@keyframes girar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--dorado); border-radius: 50%; animation: girar 0.7s linear infinite; vertical-align: middle; }
+.estado-conexion { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--gris-medio); margin-top: 6px; }
+.estado-conexion__punto { width: 8px; height: 8px; border-radius: 50%; background: #888; }
+.estado-conexion--online .estado-conexion__punto { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+.estado-conexion--offline .estado-conexion__punto { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
 </style>
 </head>
-<body class="relative text-white overflow-x-hidden bg-gradient-to-b from-blue-950 via-purple-900 to-black">
+<body>
 
-<div class="fixed inset-0 -z-10 animate-bg"></div>
+<header class="header">
+  <div class="header__logo">
+    <span class="header__cruz">✝</span>
+    <h1 class="header__titulo">ICDNJ</h1>
+  </div>
+  <p class="header__subtitulo">Iglesia Cristiana · Reserva tu asiento</p>
+  <p class="header__versiculo">"Mi casa, casa de oración será llamada" — Mateo 21:13</p>
+  <div class="estado-conexion" id="estadoConexion">
+    <span class="estado-conexion__punto"></span>
+    <span id="estadoConexionTexto">Conectando...</span>
+  </div>
+</header>
 
-<!-- BOTÓN VOLVER ARRIBA -->
-<button id="backToTop" class="fixed bottom-24 right-6 z-50 bg-yellow-400 text-black p-3 rounded-full shadow-lg hover:scale-110 transition hidden">
-    <i data-lucide="arrow-up" class="w-6 h-6"></i>
-</button>
+<main class="contenedor">
+  <section class="panel">
 
-<!-- BOTÓN MENÚ -->
-<button id="menuBtn" class="fixed top-4 left-4 z-50 bg-black/70 p-3 rounded-xl shadow-lg hover:scale-110 transition">☰</button>
+    <nav class="nav">
+      <button class="nav__btn activo" data-vista="reservar">🎫 Reservar</button>
+      <button class="nav__btn" data-vista="mis-reservas">📋 Mis reservas</button>
+      <button class="nav__btn" data-vista="buscar">🔍 Buscar</button>
+      <button class="nav__btn" data-vista="admin">⚙️ Admin</button>
+      <button class="nav__btn" data-vista="estadisticas">📊 Estadísticas</button>
+    </nav>
 
-<!-- SIDEBAR -->
-<aside id="sidebar" class="fixed top-0 left-0 h-full w-64 glass p-6 z-40 transform -translate-x-full transition-transform duration-300 overflow-y-auto">
-<h2 class="text-2xl font-bold mb-8 text-center title-glow">Menú</h2>
-<nav class="flex flex-col gap-4 text-lg mb-8">
-<a href="#hero" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="home" class="w-5 h-5"></i> Inicio</a>
-<a href="#cultos" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="calendar" class="w-5 h-5"></i> Días de Culto</a>
-<a href="#pastores" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5"></i> Pastores</a>
-<a href="#ministerios" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="heart" class="w-5 h-5"></i> Ministerios</a>
-<a href="#testimonios" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="message-circle" class="w-5 h-5"></i> Testimonios</a>
-<a href="#transmisiones" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="share-2" class="w-5 h-5"></i> Redes</a>
-<a href="#eventos" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="calendar-days" class="w-5 h-5"></i> Eventos</a>
-<a href="#oracion" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="hands-praying" class="w-5 h-5"></i> Petición de Oración</a>
-<a href="#ofrendas" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="gift" class="w-5 h-5"></i> Ofrendas</a>
-<a href="#calendario" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="calendar-check" class="w-5 h-5"></i> Calendario</a>
-<a href="#ubicacion" class="hover:text-yellow-400 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5"></i> Ubicación</a>
-</nav>
+    <div class="admin-seccion activa" id="vista-reservar">
+      <div class="estado">
+        <div class="estado__item">
+          <span class="estado__label">Disponibles</span>
+          <span class="estado__valor" id="statDisponibles">—</span>
+          <span class="estado__sub" id="statDisponiblesSub">de 100 asientos</span>
+        </div>
+        <div class="estado__item">
+          <span class="estado__label">Ocupados</span>
+          <span class="estado__valor" id="statOcupados">—</span>
+          <span class="estado__sub" id="statOcupadosSub">0% capacidad</span>
+        </div>
+        <div class="estado__item">
+          <span class="estado__label">Preferenciales</span>
+          <span class="estado__valor" id="statPreferencial">—</span>
+          <span class="estado__sub">primeras 2 filas</span>
+        </div>
+        <div class="estado__item">
+          <span class="estado__label">Movilidad</span>
+          <span class="estado__valor" id="statMovilidad">—</span>
+          <span class="estado__sub">acceso especial</span>
+        </div>
+      </div>
 
-<!-- Contador de Oración en Sidebar -->
-<div class="glass p-4 rounded-xl mb-6">
-    <h3 class="font-bold mb-2 text-yellow-400">Oraciones Contestadas</h3>
-    <div class="text-3xl font-bold text-center prayer-countdown" id="sidebarPrayerCount">1,247</div>
-    <p class="text-sm text-gray-300 text-center mt-2">Milagros de Dios</p>
-</div>
+      <div class="progreso">
+        <div class="progreso__barra" id="progresoBarra" style="width: 0%"></div>
+      </div>
 
-<!-- Versículo del Día en Sidebar -->
-<div class="glass p-4 rounded-xl">
-    <h3 class="font-bold mb-2 text-yellow-400">Versículo del Día</h3>
-    <p class="text-sm italic mb-1" id="dailyVerse">"Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos."</p>
-    <p class="text-xs text-gray-400 text-right">Mateo 18:20</p>
-</div>
-</aside>
+      <div class="pulpito">PÚLPITO</div>
 
-<!-- LOGO -->
-<img src="https://scontent.fsdq3-1.fna.fbcdn.net/v/t39.30808-6/475811330_936882668622119_1647342271377194753_n.jpg" class="fixed top-4 right-4 w-16 rounded-full shadow-xl z-50 cursor-pointer hover:scale-110 transition" id="logoBtn">
+      <div class="grid-wrap">
+        <div class="grid-pasillo">
+          <div class="grid" id="gridIzquierda"></div>
+          <div class="pasillo">PASILLO</div>
+          <div class="grid" id="gridDerecha"></div>
+        </div>
+      </div>
 
-<!-- MODAL VERSÍCULOS -->
-<div id="verseModal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden">
-    <div class="glass max-w-md w-full p-8 rounded-2xl relative">
-        <button id="closeVerseModal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-            <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-        <h3 class="text-2xl font-bold mb-4 text-yellow-400">Versículo Diario</h3>
-        <p class="text-lg mb-4" id="modalVerseText"></p>
-        <p class="text-gray-400 text-right" id="modalVerseRef"></p>
-        <button id="newVerseBtn" class="mt-6 bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500 transition w-full">Nuevo Versículo</button>
+      <div class="leyenda">
+        <div class="leyenda__item"><span class="leyenda__color leyenda__color--libre"></span> Libre</div>
+        <div class="leyenda__item"><span class="leyenda__color leyenda__color--ocupado"></span> Ocupado</div>
+        <div class="leyenda__item"><span class="leyenda__color leyenda__color--seleccionado"></span> Seleccionado</div>
+        <div class="leyenda__item"><span class="leyenda__color leyenda__color--bloqueado"></span> Bloqueado</div>
+        <div class="leyenda__item">★ Preferencial</div>
+        <div class="leyenda__item">♿ Movilidad</div>
+      </div>
+
+      <div class="acciones">
+        <button class="btn btn--secundario" id="btnEnlace">🔗 Copiar enlace</button>
+        <button class="btn btn--secundario" id="btnExportar">📥 Exportar CSV</button>
+        <button class="btn btn--secundario" id="btnRefrescar">🔄 Refrescar</button>
+      </div>
     </div>
-</div>
 
-<!-- HERO -->
-<section id="hero" class="relative min-h-screen flex items-center justify-center text-center bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1566457145000-4e3cdee5d1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')">
-<div class="absolute inset-0 bg-black/65"></div>
-<div class="relative z-10 px-6" data-aos="zoom-in">
-<h1 class="text-5xl md:text-7xl font-bold mb-6 title-glow">Iglesia Cristiana Desahaciendo las Obras del Diablo</h1>
-<p class="max-w-2xl mx-auto text-xl text-gray-200 mb-8">Una iglesia viva, llena del Espíritu Santo, donde cada persona encuentra restauración, propósito y una familia espiritual</p>
-<a href="#cultos" class="bg-yellow-400 text-black px-8 py-4 rounded-2xl font-semibold hover:scale-110 transition transform duration-300 shadow-lg hover:shadow-2xl hover:shadow-yellow-500/50 mr-4">Conéctate con nosotros</a>
-<a href="#oracion" class="bg-purple-600 text-white px-8 py-4 rounded-2xl font-semibold hover:scale-110 transition transform duration-300 shadow-lg hover:shadow-2xl hover:shadow-purple-500/50">Envía tu Petición</a>
-</div>
-</section>
-
-<!-- DÍAS DE CULTO -->
-<section id="cultos" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Días de Culto</h2>
-<div class="grid md:grid-cols-3 gap-8">
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up">
-    <h3 class="text-2xl font-bold mb-4">Martes</h3>
-    <p class="text-lg mb-2">Discipulado y Crecimiento</p>
-    <p class="text-gray-300 mb-4">Estudio bíblico profundo para fortalecer tu fe y conocimiento de la Palabra</p>
-    <p class="text-yellow-400 text-xl font-semibold mt-2">7:30 PM</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="100">
-    <h3 class="text-2xl font-bold mb-4">Jueves</h3>
-    <p class="text-lg mb-2">Discipulado para Amigos</p>
-    <p class="text-gray-300 mb-4">Encuentro especial para nuevos creyentes y personas interesadas en conocer a Jesús</p>
-    <p class="text-yellow-400 text-xl font-semibold mt-2">7:30 PM</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="200">
-    <h3 class="text-2xl font-bold mb-4">Viernes</h3>
-    <p class="text-lg mb-2">Día de Oportunidades</p>
-    <p class="text-gray-300 mb-4">Culto evangelístico con testimonios poderosos y predicación transformadora</p>
-    <p class="text-yellow-400 text-xl font-semibold mt-2">7:30 PM</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="300">
-    <h3 class="text-2xl font-bold mb-4">Sábado</h3>
-    <p class="text-lg mb-2">Juventud en Acción</p>
-    <p class="text-gray-300 mb-4">Encuentro dinámico para jóvenes con adoración contemporánea y palabra relevante</p>
-    <p class="text-yellow-400 text-xl font-semibold mt-2">7:30 PM</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover md:col-span-3" data-aos="fade-up" data-aos-delay="400">
-    <h3 class="text-2xl font-bold mb-4">Domingo</h3>
-    <p class="text-lg mb-2">Culto General de Adoración</p>
-    <p class="text-gray-300 mb-4">Nuestra reunión principal con <span class="text-yellow-400">adoración poderosa, danza profética, predicación apostólica, oración y ministerio de sanidad</span>. Un encuentro transformador con Dios.</p>
-    <p class="text-yellow-400 text-2xl font-bold mt-2">5:00 PM</p>
-</div>
-</div>
-</section>
-
-<!-- PASTORES -->
-<section id="pastores" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Nuestros Pastores</h2>
-<div class="grid md:grid-cols-2 gap-10">
-<div class="glass pastor-card p-8 rounded-3xl text-center card-hover" data-aos="zoom-in">
-    <div class="mb-6">
-        <div class="w-40 h-40 rounded-full mx-auto mb-4 overflow-hidden border-4 border-yellow-400">
-            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
-        </div>
+    <div class="admin-seccion" id="vista-mis-reservas">
+      <h2 style="color: var(--dorado); margin-bottom: 8px; font-size: 1.3rem;">📋 Mis reservas guardadas</h2>
+      <p style="color: var(--gris-medio); font-size: 0.88rem; margin-bottom: 18px;">Estas son las reservas guardadas en este dispositivo.</p>
+      <div id="listaMisReservas"></div>
+      <div class="acciones" style="margin-top: 20px;">
+        <button class="btn btn--peligro" id="btnLimpiarMias">🗑️ Limpiar mis reservas locales</button>
+      </div>
     </div>
-    <h3 class="text-2xl font-bold">Pastor Manuel Paulino</h3>
-    <p class="text-yellow-400 mt-2 text-lg">Pastor Principal y Fundador</p>
-    <p class="mt-4 text-gray-300">Con más de 25 años de ministerio, el Pastor Manuel ha dedicado su vida a la obra de Dios, guiando a miles de personas a encontrar propósito en Cristo. Su pasión es ver familias restauradas y vidas transformadas por el poder del Espíritu Santo.</p>
-</div>
-<div class="glass pastor-card p-8 rounded-3xl text-center card-hover" data-aos="zoom-in" data-aos-delay="150">
-    <div class="mb-6">
-        <div class="w-40 h-40 rounded-full mx-auto mb-4 overflow-hidden border-4 border-yellow-400">
-            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
-        </div>
+
+    <div class="admin-seccion" id="vista-buscar">
+      <h2 style="color: var(--dorado); margin-bottom: 8px; font-size: 1.3rem;">🔍 Buscar por código o nombre</h2>
+      <p style="color: var(--gris-medio); font-size: 0.88rem; margin-bottom: 18px;">Ingresa el código de reserva o el nombre para verificarla.</p>
+      <div class="controles">
+        <input type="text" id="inputBusqueda" placeholder="Ej: ICDNJ-A3F9K2 o Juan Pérez">
+        <button class="btn btn--secundario" id="btnBuscar">Buscar</button>
+      </div>
+      <div id="resultadoBusqueda" style="margin-top: 20px;"></div>
     </div>
-    <h3 class="text-2xl font-bold">Pastora Deiny De Paulino</h3>
-    <p class="text-yellow-400 mt-2 text-lg">Pastora y Líder de Mujeres</p>
-    <p class="mt-4 text-gray-300">La Pastora Deiny dirige el ministerio de mujeres con un corazón maternal. Su enfoque es el discipulado, la oración intercesora y el desarrollo del carácter cristiano en cada mujer que Dios pone en su camino.</p>
-</div>
-</div>
-</section>
 
-<!-- MINISTERIOS -->
-<section id="ministerios" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Ministerios</h2>
-<div class="grid md:grid-cols-3 gap-8">
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up">
-    <i data-lucide="music" class="w-16 h-16 text-yellow-400 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Ministerio de Alabanza</h3>
-    <p class="text-gray-300">Nuestro equipo de alabanza guía la adoración con instrumentos y voces dedicadas a exaltar el nombre de Jesús. Ensayos los sábados a las 4:00 PM.</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="100">
-    <i data-lucide="users" class="w-16 h-16 text-yellow-400 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Ministerio de Jóvenes</h3>
-    <p class="text-gray-300">Generación de Avivamiento: Un espacio donde los jóvenes encuentran propósito, amistad y crecimiento espiritual mediante estudios bíblicos y actividades.</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="200">
-    <i data-lucide="heart" class="w-16 h-16 text-yellow-400 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Ministerio de Intercesión</h3>
-    <p class="text-gray-300">Guerreros de Oración: Equipo dedicado a la guerra espiritual, intercediendo por la iglesia, la comunidad y las naciones las 24 horas del día.</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="300">
-    <i data-lucide="child" class="w-16 h-16 text-yellow-400 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Ministerio de Niños</h3>
-    <p class="text-gray-300">Pequeños Héroes: Enseñamos a los niños los valores del Reino de Dios de manera creativa y divertida cada domingo durante el culto.</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="400">
-    <i data-lucide="hand-heart" class="w-16 h-16 text-yellow-400 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Ministerio de Ayuda Social</h3>
-    <p class="text-gray-300">Manos Extendidas: Proveemos alimentos, ropa y apoyo emocional a familias necesitadas de nuestra comunidad cada mes.</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="500">
-    <i data-lucide="dance" class="w-16 h-16 text-yellow-400 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Ministerio de Danza</h3>
-    <p class="text-gray-300">Adoración en Movimiento: Expresamos nuestra adoración a Dios a través de la danza profética y coreografías que glorifican Su nombre.</p>
-</div>
-</div>
-</section>
-
-<!-- TESTIMONIOS -->
-<section id="testimonios" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Testimonios de Vida</h2>
-<div class="grid md:grid-cols-3 gap-8">
-<div class="glass p-8 rounded-2xl card-hover" data-aos="fade-up">
-    <div class="flex items-center mb-6">
-        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-yellow-400">
-            <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
-        </div>
-        <div>
-            <h3 class="font-bold text-lg">Carlos M.</h3>
-            <p class="text-yellow-400 text-sm">Miembro desde 2018</p>
-        </div>
+    <div class="admin-seccion" id="vista-admin">
+      <h2 style="color: var(--dorado); margin-bottom: 8px; font-size: 1.3rem;">⚙️ Panel de administración</h2>
+      <p style="color: var(--gris-medio); font-size: 0.88rem; margin-bottom: 18px;">Gestiona todas las reservas registradas.</p>
+      <div class="controles">
+        <input type="text" id="inputBusquedaAdmin" placeholder="Buscar por nombre, código, teléfono...">
+        <select id="filtroEstado">
+          <option value="">Todos los estados</option>
+          <option value="activa">Activas</option>
+          <option value="asistio">Asistieron</option>
+          <option value="cancelada">Canceladas</option>
+        </select>
+        <button class="btn btn--secundario" id="btnRefrescarAdmin">🔄</button>
+      </div>
+      <div class="acciones" style="justify-content: flex-start; margin-top: 14px;">
+        <button class="btn btn--secundario btn--sm" id="btnExportarAdmin">📥 Exportar CSV</button>
+        <button class="btn btn--peligro btn--sm" id="btnResetAdmin">🗑️ Borrar todas las reservas</button>
+      </div>
+      <div class="tabla-wrap">
+        <table class="tabla" id="tablaAdmin">
+          <thead>
+            <tr>
+              <th>Asiento</th><th>Código</th><th>Nombre</th><th>Teléfono</th>
+              <th>Email</th><th>Estado</th><th>Fecha</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaAdminBody">
+            <tr><td colspan="8" class="vacio">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <p class="text-lg italic">"Dios sanó mi vida y mi familia completamente. Llegué con un corazón roto por la adicción, y hoy soy libre, sirviendo en el ministerio de ayuda social. ¡Aleluya!"</p>
-</div>
-<div class="glass p-8 rounded-2xl card-hover" data-aos="fade-up" data-aos-delay="100">
-    <div class="flex items-center mb-6">
-        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-yellow-400">
-            <img src="https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
-        </div>
-        <div>
-            <h3 class="font-bold text-lg">Ana R.</h3>
-            <p class="text-yellow-400 text-sm">Miembro desde 2020</p>
-        </div>
+
+    <div class="admin-seccion" id="vista-estadisticas">
+      <h2 style="color: var(--dorado); margin-bottom: 8px; font-size: 1.3rem;">📊 Estadísticas en vivo</h2>
+      <p style="color: var(--gris-medio); font-size: 0.88rem; margin-bottom: 18px;">Resumen general del estado de las reservas.</p>
+      <div class="estado">
+        <div class="estado__item"><span class="estado__label">Total reservas</span><span class="estado__valor" id="estaTotal">0</span></div>
+        <div class="estado__item"><span class="estado__label">Activas</span><span class="estado__valor" id="estaActivas">0</span></div>
+        <div class="estado__item"><span class="estado__label">Asistieron</span><span class="estado__valor" id="estaAsistieron">0</span></div>
+        <div class="estado__item"><span class="estado__label">Canceladas</span><span class="estado__valor" id="estaCanceladas">0</span></div>
+      </div>
+      <h3 style="color: var(--dorado-claro); font-size: 1rem; margin-top: 24px; margin-bottom: 8px;">Ocupación por zona</h3>
+      <div class="grafico-barras" id="graficoZonas"></div>
+      <h3 style="color: var(--dorado-claro); font-size: 1rem; margin-top: 24px; margin-bottom: 8px;">Reservas por hora</h3>
+      <div class="grafico-barras" id="graficoHoras"></div>
     </div>
-    <p class="text-lg italic">"Llegué destruida emocionalmente después de mi divorcio y salí restaurada por el poder de Dios. Encontré una familia que me amó y me ayudó a sanar cada herida."</p>
-</div>
-<div class="glass p-8 rounded-2xl card-hover" data-aos="fade-up" data-aos-delay="200">
-    <div class="flex items-center mb-6">
-        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-yellow-400">
-            <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover">
+
+  </section>
+
+  <p class="pie">
+    "Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos."
+    <strong>— Mateo 18:20 —</strong>
+  </p>
+</main>
+
+<div class="modal" id="modalReserva">
+  <div class="modal__caja">
+    <button class="modal__cerrar" id="modalCerrar">×</button>
+    <div id="modalContenidoForm">
+      <h3 class="modal__titulo">Registrar reserva</h3>
+      <p class="modal__sub">Asiento seleccionado: <b id="modalAsientoNum">—</b></p>
+      <div class="campo-grupo">
+        <label class="campo-label">Nombre completo *</label>
+        <input class="campo" type="text" id="inputNombre" placeholder="Ej: Juan Pérez" maxlength="80" autocomplete="name">
+      </div>
+      <div class="campo-fila">
+        <div class="campo-grupo">
+          <label class="campo-label">Teléfono</label>
+          <input class="campo" type="tel" id="inputTelefono" placeholder="809-000-0000" maxlength="20" autocomplete="tel">
         </div>
-        <div>
-            <h3 class="font-bold text-lg">Miguel T.</h3>
-            <p class="text-yellow-400 text-sm">Miembro desde 2019</p>
+        <div class="campo-grupo">
+          <label class="campo-label">Edad</label>
+          <input class="campo" type="text" id="inputEdad" placeholder="Ej: 30" maxlength="3">
         </div>
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Correo electrónico</label>
+        <input class="campo" type="email" id="inputEmail" placeholder="correo@ejemplo.com" maxlength="120" autocomplete="email">
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Notas o petición (opcional)</label>
+        <input class="campo" type="text" id="inputNotas" placeholder="Ej: Silla de ruedas, primera vez..." maxlength="120">
+      </div>
+      <button class="btn btn--primario" id="btnConfirmar" style="margin-top: 8px;">✓ Confirmar reserva</button>
+      <button class="btn btn--secundario" id="btnCancelarReserva" style="width: 100%; margin-top: 8px;">Cancelar</button>
     </div>
-    <p class="text-lg italic">"Jesús cambió mi historia para siempre. De estar al borde del suicidio, hoy soy líder de jóvenes y ayudo a otros a encontrar esperanza en Cristo."</p>
+    <div id="modalContenidoExito" style="display: none;"></div>
+  </div>
 </div>
-</div>
-</section>
 
-<!-- PETICIÓN DE ORACIÓN -->
-<section id="oracion" class="px-6 py-24 max-w-4xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Envía tu Petición de Oración</h2>
-<div class="glass p-8 rounded-2xl" data-aos="fade-up">
-    <p class="text-center text-gray-300 mb-6">"Pedid, y se os dará; buscad, y hallaréis; llamad, y se os abrirá." - Mateo 7:7</p>
-    
-    <form id="prayerForm" class="space-y-6">
-        <div class="grid md:grid-cols-2 gap-6">
-            <div>
-                <label class="block mb-2 text-gray-300">Tu Nombre *</label>
-                <input type="text" id="prayerName" required class="offering-form" placeholder="Ej: María García">
-            </div>
-            <div>
-                <label class="block mb-2 text-gray-300">Tu Email</label>
-                <input type="email" id="prayerEmail" class="offering-form" placeholder="tucorreo@ejemplo.com">
-            </div>
-        </div>
-        
-        <div>
-            <label class="block mb-2 text-gray-300">Tipo de Petición *</label>
-            <select id="prayerType" required class="offering-form">
-                <option value="" disabled selected>Selecciona un tipo</option>
-                <option value="sanidad">Sanidad Física</option>
-                <option value="restauracion">Restauración Familiar</option>
-                <option value="libertad">Libertad Espiritual</option>
-                <option value="provision">Provisión Económica</option>
-                <option value="salvacion">Salvación de Familiares</option>
-                <option value="otro">Otro</option>
-            </select>
-        </div>
-        
-        <div>
-            <label class="block mb-2 text-gray-300">Tu Petición de Oración *</label>
-            <textarea id="prayerRequest" rows="5" required class="offering-form" placeholder="Describe tu petición aquí..."></textarea>
-        </div>
-        
-        <div class="flex items-center">
-            <input type="checkbox" id="prayerAnonymous" class="mr-2">
-            <label for="prayerAnonymous" class="text-gray-300">Enviar como anónimo</label>
-        </div>
-        
-        <button type="submit" class="w-full bg-yellow-400 text-black py-3 rounded-xl font-semibold hover:bg-yellow-500 transition">
-            <i data-lucide="send" class="w-5 h-5 inline mr-2"></i> Enviar Petición
-        </button>
-    </form>
-    
-    <div id="prayerSuccess" class="mt-6 p-4 bg-green-900/50 border border-green-500 rounded-xl hidden">
-        <p class="text-green-300 text-center">✅ Tu petición ha sido enviada. Nuestro equipo de intercesión estará orando por ti.</p>
-    </div>
-</div>
-</section>
+<div class="toast" id="toast"></div>
 
-<!-- OFRENDAS Y DIEZMOS -->
-<section id="ofrendas" class="px-6 py-24 max-w-4xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Ofrendas y Diezmos</h2>
-<div class="glass p-8 rounded-2xl" data-aos="fade-up">
-    <p class="text-center text-gray-300 mb-6">"Cada uno dé como propuso en su corazón: no con tristeza, ni por necesidad, porque Dios ama al dador alegre." - 2 Corintios 9:7</p>
-    
-    <div class="grid md:grid-cols-2 gap-8 mb-8">
-        <div class="text-center p-6 rounded-xl bg-blue-900/30">
-            <i data-lucide="credit-card" class="w-12 h-12 text-yellow-400 mx-auto mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">Transferencia Bancaria</h3>
-            <p class="text-gray-300 mb-2">Banco: Banco Popular</p>
-            <p class="text-gray-300 mb-2">Cuenta: 123-456789-0</p>
-            <p class="text-gray-300">A nombre de: Iglesia Cristiana DOD</p>
-        </div>
-        
-        <div class="text-center p-6 rounded-xl bg-purple-900/30">
-            <i data-lucide="smartphone" class="w-12 h-12 text-yellow-400 mx-auto mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">Pago Móvil</h3>
-            <p class="text-gray-300 mb-2">AgapePay: 809-555-0123</p>
-            <p class="text-gray-300">Yappy: iglesia.dod</p>
-        </div>
-    </div>
-    
-    <form id="offeringForm" class="space-y-6">
-        <div class="grid md:grid-cols-2 gap-6">
-            <div>
-                <label class="block mb-2 text-gray-300">Nombre Completo *</label>
-                <input type="text" id="offeringName" required class="offering-form" placeholder="Tu nombre completo">
-            </div>
-            <div>
-                <label class="block mb-2 text-gray-300">Tipo de Ofrenda *</label>
-                <select id="offeringType" required class="offering-form">
-                    <option value="" disabled selected>Selecciona tipo</option>
-                    <option value="diezmo">Diezmo</option>
-                    <option value="ofrenda">Ofrenda General</option>
-                    <option value="mision">Misiones</option>
-                    <option value="especial">Ofrenda Especial</option>
-                </select>
-            </div>
-        </div>
-        
-        <div>
-            <label class="block mb-2 text-gray-300">Monto (USD) *</label>
-            <input type="number" id="offeringAmount" min="1" required class="offering-form" placeholder="Ej: 100">
-        </div>
-        
-        <div>
-            <label class="block mb-2 text-gray-300">Mensaje (Opcional)</label>
-            <textarea id="offeringMessage" rows="3" class="offering-form" placeholder="Dedicatoria o propósito de la ofrenda"></textarea>
-        </div>
-        
-        <button type="submit" class="w-full bg-yellow-400 text-black py-3 rounded-xl font-semibold hover:bg-yellow-500 transition">
-            <i data-lucide="dollar-sign" class="w-5 h-5 inline mr-2"></i> Registrar Ofrenda
-        </button>
-    </form>
-    
-    <div id="offeringSuccess" class="mt-6 p-4 bg-green-900/50 border border-green-500 rounded-xl hidden">
-        <p class="text-green-300 text-center">✅ Gracias por tu ofrenda. ¡Dios bendice tu generosidad!</p>
-    </div>
-</div>
-</section>
-
-<!-- REDES SOCIALES -->
-<section id="transmisiones" class="px-6 py-28 max-w-7xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Conéctate con Nosotros</h2>
-<div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10">
-<a href="https://x.com/Iglesia_ICDNJ" target="_blank" class="glass p-10 rounded-3xl text-center card-hover">
-    <i data-lucide="x" class="w-20 h-20 text-white mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">X (Twitter)</h3>
-    <p class="text-gray-300">Sigue nuestras reflexiones diarias y noticias de la iglesia</p>
-</a>
-<a href="https://youtube.com/@pastormanuelpaulino7" target="_blank" class="glass p-10 rounded-3xl text-center card-hover">
-    <i data-lucide="youtube" class="w-20 h-20 text-red-500 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">YouTube</h3>
-    <p class="text-gray-300">Mira nuestras predicaciones completas y testimonios</p>
-</a>
-<a href="https://www.instagram.com/pastor_manuelpaulino" target="_blank" class="glass p-10 rounded-3xl text-center card-hover">
-    <i data-lucide="instagram" class="w-20 h-20 text-pink-500 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Instagram</h3>
-    <p class="text-gray-300">Fotos de nuestros eventos y versículos inspiradores</p>
-</a>
-<a href="https://www.tiktok.com/@iglesia.cristiana_icdnj" target="_blank" class="glass p-10 rounded-3xl text-center card-hover">
-    <i data-lucide="video" class="w-20 h-20 text-white mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">TikTok</h3>
-    <p class="text-gray-300">Contenido breve y dinámico para todas las edades</p>
-</a>
-<a href="https://facebook.com" target="_blank" class="glass p-10 rounded-3xl text-center card-hover">
-    <i data-lucide="facebook" class="w-20 h-20 text-blue-500 mx-auto mb-6 icon-glow"></i>
-    <h3 class="text-2xl font-bold mb-4">Facebook</h3>
-    <p class="text-gray-300">Comunidad activa con transmisiones en vivo semanales</p>
-</a>
-</div>
-</section>
-
-<!-- EVENTOS ESPECIALES -->
-<section id="eventos" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Eventos Especiales</h2>
-<div class="grid md:grid-cols-3 gap-8">
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up">
-    <h3 class="text-2xl font-bold mb-4">Culto De Adoradores</h3>
-    <p class="text-lg text-yellow-400 mb-2">24 de Enero 2024</p>
-    <p class="text-gray-300 mb-4">Una noche dedicada exclusivamente a la adoración ininterrumpida donde el Espíritu Santo se mueve poderosamente</p>
-    <p class="font-semibold">Lugar: Pley De Sabanita Principal</p>
-    <p class="text-sm text-gray-400 mt-2">Hora: 7:00 PM</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="100">
-    <h3 class="text-2xl font-bold mb-4">Culto de Danzarinas</h3>
-    <p class="text-lg text-yellow-400 mb-2">30 de Febrero 2024</p>
-    <p class="text-gray-300 mb-4">Nuestro equipo de danza presenta coreografías proféticas que ministran al corazón y glorifican a Dios</p>
-    <p class="font-semibold">Lugar: Sala de Jóvenes</p>
-    <p class="text-sm text-gray-400 mt-2">Hora: 6:30 PM</p>
-</div>
-<div class="glass p-8 rounded-2xl text-center card-hover" data-aos="fade-up" data-aos-delay="200">
-    <h3 class="text-2xl font-bold mb-4">Retiro Espiritual</h3>
-    <p class="text-lg text-yellow-400 mb-2">20-22 de Febrero 2024</p>
-    <p class="text-gray-300 mb-4">"En Su Presencia" - Tres días de ayuno, oración, enseñanza y renovación espiritual en un ambiente de reposo</p>
-    <p class="font-semibold">Lugar: Casa de Retiros Monte de Dios</p>
-    <p class="text-sm text-gray-400 mt-2">Incluye: Alojamiento, alimentación y materiales</p>
-</div>
-</div>
-</section>
-
-<!-- CALENDARIO DE EVENTOS -->
-<section id="calendario" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Calendario de Eventos</h2>
-<div class="glass p-8 rounded-2xl" data-aos="fade-up">
-    <div class="grid md:grid-cols-2 gap-8">
-        <div>
-            <h3 class="text-2xl font-bold mb-6 text-yellow-400">Próximos Eventos</h3>
-            <div class="space-y-4">
-                <div class="p-4 rounded-xl calendar-event">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold">15 Febrero</span>
-                        <span class="text-yellow-400">Noche de Milagros</span>
-                    </div>
-                    <p class="text-gray-300 mt-2">Culto especial enfocado en sanidad y milagros</p>
-                </div>
-                <div class="p-4 rounded-xl calendar-event">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold">22 Febrero</span>
-                        <span class="text-yellow-400">Bautismo</span>
-                    </div>
-                    <p class="text-gray-300 mt-2">Ceremonia de bautismo en aguas</p>
-                </div>
-                <div class="p-4 rounded-xl calendar-event">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold">29 Febrero</span>
-                        <span class="text-yellow-400">Ayuno de 21 Días</span>
-                    </div>
-                    <p class="text-gray-300 mt-2">Inicio del ayuno corporativo</p>
-                </div>
-            </div>
-        </div>
-        
-        <div>
-            <h3 class="text-2xl font-bold mb-6 text-yellow-400">Calendario Mensual</h3>
-            <div class="grid grid-cols-7 gap-2 text-center">
-                <div class="font-bold text-yellow-400 p-2">Dom</div>
-                <div class="font-bold text-yellow-400 p-2">Lun</div>
-                <div class="font-bold text-yellow-400 p-2">Mar</div>
-                <div class="font-bold text-yellow-400 p-2">Mié</div>
-                <div class="font-bold text-yellow-400 p-2">Jue</div>
-                <div class="font-bold text-yellow-400 p-2">Vie</div>
-                <div class="font-bold text-yellow-400 p-2">Sáb</div>
-                
-                <!-- Días del mes (ejemplo simplificado) -->
-                <div class="calendar-day p-2">28</div>
-                <div class="calendar-day p-2">29</div>
-                <div class="calendar-day p-2">30</div>
-                <div class="calendar-day p-2">31</div>
-                <div class="calendar-day p-2 bg-yellow-400/30 rounded-full">1</div>
-                <div class="calendar-day p-2">2</div>
-                <div class="calendar-day p-2">3</div>
-                <div class="calendar-day p-2 bg-purple-500/30 rounded-full">4</div>
-                <div class="calendar-day p-2">5</div>
-                <div class="calendar-day p-2">6</div>
-                <div class="calendar-day p-2">7</div>
-                <div class="calendar-day p-2">8</div>
-                <div class="calendar-day p-2">9</div>
-                <div class="calendar-day p-2 bg-blue-500/30 rounded-full">10</div>
-                <div class="calendar-day p-2">11</div>
-                <div class="calendar-day p-2">12</div>
-                <div class="calendar-day p-2">13</div>
-                <div class="calendar-day p-2">14</div>
-                <div class="calendar-day p-2 bg-red-500/30 rounded-full">15</div>
-                <div class="calendar-day p-2">16</div>
-                <div class="calendar-day p-2">17</div>
-                <div class="calendar-day p-2">18</div>
-                <div class="calendar-day p-2">19</div>
-                <div class="calendar-day p-2">20</div>
-                <div class="calendar-day p-2 bg-green-500/30 rounded-full">21</div>
-                <div class="calendar-day p-2">22</div>
-                <div class="calendar-day p-2">23</div>
-                <div class="calendar-day p-2">24</div>
-                <div class="calendar-day p-2">25</div>
-                <div class="calendar-day p-2">26</div>
-                <div class="calendar-day p-2 bg-yellow-400/30 rounded-full">27</div>
-                <div class="calendar-day p-2">28</div>
-                <div class="calendar-day p-2">29</div>
-                <div class="calendar-day p-2">1</div>
-                <div class="calendar-day p-2">2</div>
-                <div class="calendar-day p-2">3</div>
-            </div>
-            
-            <div class="mt-6 space-y-2">
-                <div class="flex items-center">
-                    <div class="w-3 h-3 bg-yellow-400/30 rounded-full mr-2"></div>
-                    <span class="text-sm">Culto Dominical</span>
-                </div>
-                <div class="flex items-center">
-                    <div class="w-3 h-3 bg-purple-500/30 rounded-full mr-2"></div>
-                    <span class="text-sm">Reunión de Jóvenes</span>
-                </div>
-                <div class="flex items-center">
-                    <div class="w-3 h-3 bg-blue-500/30 rounded-full mr-2"></div>
-                    <span class="text-sm">Oración</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
-
-<!-- UBICACIÓN -->
-<section id="ubicacion" class="px-6 py-24 max-w-6xl mx-auto">
-<h2 class="section-title title-glow" data-aos="fade-up">Nuestra Ubicación</h2>
-<div class="grid md:grid-cols-2 gap-10 items-center">
-<div data-aos="fade-right">
-    <div class="glass p-8 rounded-2xl mb-6">
-        <h3 class="text-2xl font-bold mb-4">Visítanos</h3>
-        <p class="text-lg mb-2">📍 <span class="font-semibold">Dirección:</span> Calle Ana de Peravia #15, a mano izquierda en el callejón, Peravia, República Dominicana</p>
-        <p class="text-lg mb-2">📞 <span class="font-semibold">Teléfono:</span> (809) 555-0123</p>
-        <p class="text-lg mb-2">📧 <span class="font-semibold">Email:</span> info@iglesiacristianadod.com</p>
-        <p class="text-lg mb-2">⏰ <span class="font-semibold">Horario de Oficina:</span> Lunes-Viernes 9:00 AM - 5:00 PM</p>
-    </div>
-    <div class="glass p-8 rounded-2xl">
-        <h3 class="text-2xl font-bold mb-4">Cómo Llegar</h3>
-        <p class="text-gray-300">Desde el centro de Peravia, toma la calle principal hacia el norte, gira a la izquierda en la Calle Ana de Peravia, y busca el número 15 en el callejón a mano izquierda. Tenemos letreros visibles para guiarte.</p>
-    </div>
-</div>
-<div class="rounded-2xl overflow-hidden shadow-xl" data-aos="fade-left" data-aos-delay="100">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.715061273183!2d-69.9377229240574!3d18.45102366957923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eaf89f1107ea5ab%3A0xd6c587b82715c164!2sPeravia%2C%20Rep%C3%BAblica%20Dominicana!5e0!3m2!1ses!2s!4v1706136836155!5m2!1ses!2s" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-</div>
-</div>
-</section>
-
-<!-- QR -->
-<section class="text-center py-20">
-<h2 class="text-3xl mb-6 title-glow">Comparte Nuestra Página</h2>
-<p class="text-gray-300 mb-8 max-w-2xl mx-auto">Escanéa este código QR para acceder rápidamente a nuestra página web desde tu dispositivo móvil o compártelo con amigos y familiares</p>
-<div id="qrcode" class="flex justify-center mb-8"></div>
-<p class="text-yellow-400 font-semibold">¡Te esperamos en nuestra próxima reunión!</p>
-</section>
-
-<!-- BOTÓN WHATSAPP -->
-<a href="https://wa.me/18095550123" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-500 p-4 rounded-full shadow-lg hover:scale-110 transition">
-<i data-lucide="message-circle" class="w-8 h-8 text-white"></i>
-</a>
-
-<!-- FOOTER -->
-<footer class="text-center py-10 text-gray-400 glass mt-20">
-<div class="max-w-6xl mx-auto px-6">
-    <p class="text-lg mb-4">© 2024 Iglesia Cristiana Desahaciendo las Obras del Diablo - Todos los derechos reservados</p>
-    <p class="text-sm mb-2">"Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos." - Mateo 18:20</p>
-    <p class="text-sm">Diseñado con ❤️ para la Gloria de Dios</p>
-</div>
-</footer>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-AOS.init({ duration:1200, once:false });
-lucide.createIcons();
+/* ═══════════════════════════════════════════════════════════════
+   ⚠️ CONFIGURACIÓN — REEMPLAZA ESTOS DOS VALORES
+   ═══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
+const SUPABASE_KEY = 'TU_ANON_KEY';  // clave pública (anon), NUNCA la service_role
 
-// Función para el menú
-const menuBtn = document.getElementById('menuBtn');
-const sidebar = document.getElementById('sidebar');
-menuBtn.onclick = (e)=>{ e.stopPropagation(); sidebar.classList.toggle('-translate-x-full'); };
-document.addEventListener('click', e=>{ if(!sidebar.contains(e.target) && !menuBtn.contains(e.target)){ sidebar.classList.add('-translate-x-full'); }});
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// QR Code
-new QRCode(document.getElementById("qrcode"), { 
-    text: window.location.href, 
-    width:180, 
-    height:180, 
-    colorDark:"#ffffff", 
-    colorLight:"transparent" 
-});
-
-// ================= NUEVAS FUNCIONES AGREGADAS =================
-
-// 1. Botón "Volver Arriba"
-const backToTopBtn = document.getElementById('backToTop');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        backToTopBtn.classList.remove('hidden');
-    } else {
-        backToTopBtn.classList.add('hidden');
-    }
-});
-backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-// 2. Versículos Bíblicos Aleatorios
-const verses = [
-    { text: "Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos.", ref: "Mateo 18:20" },
-    { text: "Todo lo puedo en Cristo que me fortalece.", ref: "Filipenses 4:13" },
-    { text: "El Señor es mi pastor, nada me faltará.", ref: "Salmos 23:1" },
-    { text: "Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros.", ref: "1 Pedro 5:7" },
-    { text: "Yo soy el camino, y la verdad, y la vida; nadie viene al Padre, sino por mí.", ref: "Juan 14:6" },
-    { text: "Más que vencedores somos por medio de aquel que nos amó.", ref: "Romanos 8:37" },
-    { text: "Fiel es Dios, que no os dejará ser tentados más de lo que podéis resistir.", ref: "1 Corintios 10:13" }
-];
-
-function getRandomVerse() {
-    const randomIndex = Math.floor(Math.random() * verses.length);
-    return verses[randomIndex];
-}
-
-// Mostrar versículo en sidebar
-const dailyVerse = document.getElementById('dailyVerse');
-const verseRef = document.querySelector('#dailyVerse + p');
-const initialVerse = getRandomVerse();
-dailyVerse.textContent = `"${initialVerse.text}"`;
-verseRef.textContent = initialVerse.ref;
-
-// Modal de versículos
-const verseModal = document.getElementById('verseModal');
-const modalVerseText = document.getElementById('modalVerseText');
-const modalVerseRef = document.getElementById('modalVerseRef');
-const closeVerseModal = document.getElementById('closeVerseModal');
-const newVerseBtn = document.getElementById('newVerseBtn');
-const logoBtn = document.getElementById('logoBtn');
-
-logoBtn.addEventListener('click', () => {
-    const verse = getRandomVerse();
-    modalVerseText.textContent = `"${verse.text}"`;
-    modalVerseRef.textContent = verse.ref;
-    verseModal.classList.remove('hidden');
-});
-
-closeVerseModal.addEventListener('click', () => {
-    verseModal.classList.add('hidden');
-});
-
-newVerseBtn.addEventListener('click', () => {
-    const verse = getRandomVerse();
-    modalVerseText.textContent = `"${verse.text}"`;
-    modalVerseRef.textContent = verse.ref;
-});
-
-verseModal.addEventListener('click', (e) => {
-    if (e.target === verseModal) {
-        verseModal.classList.add('hidden');
-    }
-});
-
-// 3. Formulario de Petición de Oración
-const prayerForm = document.getElementById('prayerForm');
-const prayerSuccess = document.getElementById('prayerSuccess');
-
-prayerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('prayerName').value;
-    const type = document.getElementById('prayerType').value;
-    const request = document.getElementById('prayerRequest').value;
-    const anonymous = document.getElementById('prayerAnonymous').checked;
-    
-    // Simular envío (en un caso real, aquí iría una petición AJAX)
-    console.log('Petición de oración enviada:', {
-        nombre: anonymous ? 'Anónimo' : name,
-        tipo: type,
-        peticion: request,
-        fecha: new Date().toLocaleString()
+/* ═══════════════════════════════════════════════════════════════
+   UTILIDADES
+   ═══════════════════════════════════════════════════════════════ */
+const Utils = {
+  generarCodigo() {
+    const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let codigo = 'ICDNJ-';
+    for (let i = 0; i < 6; i++) codigo += c[Math.floor(Math.random() * c.length)];
+    return codigo;
+  },
+  ahora: () => new Date().toISOString(),
+  formatearFecha(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleString('es-DO', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     });
-    
-    // Mostrar mensaje de éxito
-    prayerSuccess.classList.remove('hidden');
-    prayerForm.reset();
-    
-    // Ocultar mensaje después de 5 segundos
-    setTimeout(() => {
-        prayerSuccess.classList.add('hidden');
-    }, 5000);
-    
-    // Incrementar contador de oraciones
-    const prayerCount = document.getElementById('sidebarPrayerCount');
-    let count = parseInt(prayerCount.textContent.replace(',', ''));
-    count += 1;
-    prayerCount.textContent = count.toLocaleString();
-});
+  },
+  limpiar: (t) => !t ? '' : String(t).trim().replace(/[<>]/g, '').substring(0, 120),
+  validarNombre: (n) => /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'-]{2,80}$/.test(n.trim()),
+  validarEmail: (e) => !e || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()),
+  toast(msg, tipo = 'info') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = `toast toast--${tipo} toast--visible`;
+    clearTimeout(Utils._t);
+    Utils._t = setTimeout(() => el.classList.remove('toast--visible'), 3200);
+  },
+  confirmar: (m) => window.confirm(m),
+  setConexion(online) {
+    const cont = document.getElementById('estadoConexion');
+    const txt = document.getElementById('estadoConexionTexto');
+    cont.classList.remove('estado-conexion--online', 'estado-conexion--offline');
+    cont.classList.add(online ? 'estado-conexion--online' : 'estado-conexion--offline');
+    txt.textContent = online ? 'En vivo · conectado' : 'Sin conexión';
+  }
+};
 
-// 4. Formulario de Ofrendas
-const offeringForm = document.getElementById('offeringForm');
-const offeringSuccess = document.getElementById('offeringSuccess');
+/* ═══════════════════════════════════════════════════════════════
+   ASIENTOS (mapa en memoria)
+   ═══════════════════════════════════════════════════════════════ */
+const Asientos = (() => {
+  const CAPACIDAD = 100;
+  let mapa = {};
 
-offeringForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('offeringName').value;
-    const type = document.getElementById('offeringType').value;
-    const amount = document.getElementById('offeringAmount').value;
-    const message = document.getElementById('offeringMessage').value;
-    
-    // Simular envío
-    console.log('Ofrenda registrada:', {
-        nombre: name,
-        tipo: type,
-        monto: amount,
-        mensaje: message,
-        fecha: new Date().toLocaleString()
+  function inicializar() {
+    mapa = {};
+    for (let i = 1; i <= CAPACIDAD; i++) {
+      const fila = Math.ceil(i / 10);
+      const col = ((i - 1) % 10) + 1;
+      let zona = 'general';
+      if (fila <= 2) zona = 'preferencial';
+      if (fila === 10 && col >= 4 && col <= 7) zona = 'movilidad';
+      mapa[i] = { numero: i, fila, columna: col, zona, estado: 'libre', reservadoPor: null, codigo: null };
+    }
+  }
+
+  function aplicarFila(row) {
+    const a = mapa[row.number];
+    if (!a) return;
+    a.estado = row.reserved ? (row.status === 'cancelada' ? 'libre' : 'ocupado') : 'libre';
+    a.reservadoPor = row.reserved_by;
+    a.codigo = row.code;
+  }
+
+  function reemplazarTodo(rows) {
+    inicializar();
+    rows.forEach(aplicarFila);
+  }
+
+  const obtener = (n) => mapa[n];
+  const todos = () => Object.values(mapa);
+  const estaOcupado = (n) => mapa[n]?.estado === 'ocupado';
+
+  function estadisticas() {
+    const arr = todos();
+    const ocupados = arr.filter(a => a.estado === 'ocupado').length;
+    const pref = arr.filter(a => a.zona === 'preferencial');
+    const mov = arr.filter(a => a.zona === 'movilidad');
+    return {
+      total: CAPACIDAD, ocupados,
+      disponibles: CAPACIDAD - ocupados,
+      porcentaje: Math.round((ocupados / CAPACIDAD) * 100),
+      preferenciales: pref.filter(a => a.estado === 'libre').length,
+      preferencialesTotal: pref.length,
+      movilidad: mov.filter(a => a.estado === 'libre').length,
+      movilidadTotal: mov.length
+    };
+  }
+
+  return { inicializar, aplicarFila, reemplazarTodo, obtener, todos, estaOcupado, estadisticas, CAPACIDAD };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   RESERVAS (Supabase)
+   ═══════════════════════════════════════════════════════════════ */
+const Reservas = (() => {
+  const CLAVE_LOCAL = 'icdnj_mis_reservas';
+
+  async function cargarAsientos() {
+    const { data, error } = await sb.from('seats').select('*').order('number');
+    if (error) throw error;
+    Asientos.reemplazarTodo(data || []);
+    return data;
+  }
+
+  async function crear({ asiento, nombre, telefono, email, edad, notas }) {
+    if (!asiento) throw new Error('Asiento no especificado');
+    if (!nombre?.trim()) throw new Error('El nombre es obligatorio');
+    if (!Utils.validarNombre(nombre)) throw new Error('Nombre inválido');
+    if (!Utils.validarEmail(email)) throw new Error('Correo inválido');
+
+    const codigo = Utils.generarCodigo();
+
+    const { data, error } = await sb.from('seats')
+      .update({
+        reserved: true,
+        reserved_by: Utils.limpiar(nombre),
+        reserved_phone: Utils.limpiar(telefono),
+        reserved_email: Utils.limpiar(email),
+        reserved_age: Utils.limpiar(edad),
+        reserved_notes: Utils.limpiar(notas),
+        code: codigo,
+        status: 'activa',
+        checkin: 0,
+        reserved_at: Utils.ahora()
+      })
+      .eq('number', asiento)
+      .eq('reserved', false)
+      .select();
+
+    if (error) throw new Error('Error de red. Intenta de nuevo.');
+    if (!data || data.length === 0) throw new Error('Ese asiento acaba de ser ocupado. Elige otro.');
+
+    const reserva = {
+      codigo, asiento,
+      nombre: Utils.limpiar(nombre),
+      telefono: Utils.limpiar(telefono),
+      email: Utils.limpiar(email),
+      edad: Utils.limpiar(edad),
+      notas: Utils.limpiar(notas),
+      estado: 'activa',
+      fecha: data[0].reserved_at,
+      checkin: 0
+    };
+
+    Asientos.aplicarFila(data[0]);
+    guardarLocal(reserva);
+    return reserva;
+  }
+
+  async function listar(filtros = {}) {
+    const { data, error } = await sb.from('seats').select('*').eq('reserved', true);
+    if (error) throw error;
+
+    let arr = (data || []).map(r => ({
+      codigo: r.code, asiento: r.number, nombre: r.reserved_by || '',
+      telefono: r.reserved_phone || '', email: r.reserved_email || '',
+      edad: r.reserved_age || '', notas: r.reserved_notes || '',
+      estado: r.status || 'activa', fecha: r.reserved_at,
+      checkin: r.checkin || 0
+    }));
+
+    if (filtros.estado) arr = arr.filter(r => r.estado === filtros.estado);
+
+    if (filtros.busqueda) {
+      const q2 = filtros.busqueda.toLowerCase();
+      arr = arr.filter(r =>
+        (r.nombre && r.nombre.toLowerCase().includes(q2)) ||
+        (r.codigo && r.codigo.toLowerCase().includes(q2)) ||
+        (r.telefono && r.telefono.toLowerCase().includes(q2)) ||
+        (r.email && r.email.toLowerCase().includes(q2)) ||
+        String(r.asiento).includes(q2)
+      );
+    }
+
+    arr.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    return arr;
+  }
+
+  async function porCodigo(codigo) {
+    const { data, error } = await sb.from('seats').select('*').eq('code', codigo).maybeSingle();
+    if (error) throw error;
+    if (!data) return null;
+    return {
+      codigo: data.code, asiento: data.number, nombre: data.reserved_by || '',
+      telefono: data.reserved_phone || '', email: data.reserved_email || '',
+      edad: data.reserved_age || '', notas: data.reserved_notes || '',
+      estado: data.status || 'activa', fecha: data.reserved_at,
+      checkin: data.checkin || 0
+    };
+  }
+
+  async function cancelar(codigo) {
+    const { data: enc } = await sb.from('seats').select('*').eq('code', codigo).maybeSingle();
+    if (!enc) throw new Error('Reserva no encontrada');
+    if (enc.status === 'cancelada') throw new Error('Ya está cancelada');
+
+    const { data, error } = await sb.from('seats').update({
+      reserved: false, reserved_by: null, reserved_phone: null,
+      reserved_email: null, reserved_age: null, reserved_notes: null,
+      code: null, status: 'cancelada', checkin: 0, reserved_at: null
+    }).eq('code', codigo).select();
+
+    if (error) throw error;
+    if (data?.[0]) Asientos.aplicarFila(data[0]);
+    quitarLocal(codigo);
+    return true;
+  }
+
+  async function checkin(codigo) {
+    const { data, error } = await sb.from('seats')
+      .update({ checkin: 1, status: 'asistio' })
+      .eq('code', codigo).select();
+    if (error) throw error;
+    if (!data?.[0]) throw new Error('Reserva no encontrada');
+    return data[0];
+  }
+
+  async function resetearTodo() {
+    const { error } = await sb.from('seats').update({
+      reserved: false, reserved_by: null, reserved_phone: null,
+      reserved_email: null, reserved_age: null, reserved_notes: null,
+      code: null, status: 'libre', checkin: 0, reserved_at: null
+    }).eq('reserved', true);
+    if (error) throw error;
+    localStorage.removeItem(CLAVE_LOCAL);
+    await cargarAsientos();
+  }
+
+  function guardarLocal(reserva) {
+    const mias = JSON.parse(localStorage.getItem(CLAVE_LOCAL) || '[]');
+    mias.unshift({ codigo: reserva.codigo, asiento: reserva.asiento, nombre: reserva.nombre, fecha: reserva.fecha });
+    localStorage.setItem(CLAVE_LOCAL, JSON.stringify(mias.slice(0, 50)));
+  }
+  function quitarLocal(codigo) {
+    const mias = JSON.parse(localStorage.getItem(CLAVE_LOCAL) || '[]').filter(m => m.codigo !== codigo);
+    localStorage.setItem(CLAVE_LOCAL, JSON.stringify(mias));
+  }
+  function misReservasLocales() {
+    return JSON.parse(localStorage.getItem(CLAVE_LOCAL) || '[]');
+  }
+  function limpiarMisReservasLocales() {
+    localStorage.removeItem(CLAVE_LOCAL);
+  }
+
+  function estadisticas(reservas) {
+    return {
+      total: reservas.length,
+      activas: reservas.filter(r => r.estado === 'activa').length,
+      asistieron: reservas.filter(r => r.estado === 'asistio').length,
+      canceladas: reservas.filter(r => r.estado === 'cancelada').length
+    };
+  }
+
+  function suscribirse(callback) {
+    const canal = sb.channel('seats-live')
+      .on('postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'seats' },
+        (payload) => {
+          Asientos.aplicarFila(payload.new);
+          if (callback) callback(payload.new);
+        })
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'seats' },
+        (payload) => {
+          Asientos.aplicarFila(payload.new);
+          if (callback) callback(payload.new);
+        })
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') Utils.setConexion(true);
+        else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') Utils.setConexion(false);
+      });
+    return canal;
+  }
+
+  return {
+    cargarAsientos, crear, listar, porCodigo, cancelar, checkin,
+    resetearTodo, suscribirse,
+    misReservasLocales, limpiarMisReservasLocales, estadisticas
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   VISTA
+   ═══════════════════════════════════════════════════════════════ */
+const Vista = (() => {
+  const el = {
+    gridIzq: document.getElementById('gridIzquierda'),
+    gridDer: document.getElementById('gridDerecha'),
+    statDisp: document.getElementById('statDisponibles'),
+    statOcup: document.getElementById('statOcupados'),
+    statPrefer: document.getElementById('statPreferencial'),
+    statMov: document.getElementById('statMovilidad'),
+    statOcupSub: document.getElementById('statOcupadosSub'),
+    progreso: document.getElementById('progresoBarra')
+  };
+
+  function renderAsientos() {
+    el.gridIzq.innerHTML = '';
+    el.gridDer.innerHTML = '';
+    for (let i = 1; i <= 100; i++) {
+      const a = Asientos.obtener(i);
+      if (!a) continue;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'asiento';
+      btn.textContent = i;
+      btn.dataset.numero = i;
+      if (a.zona === 'preferencial') btn.classList.add('asiento--preferencial');
+      if (a.zona === 'movilidad') btn.classList.add('asiento--movilidad');
+      if (a.estado === 'ocupado') {
+        btn.classList.add('asiento--ocupado');
+        btn.title = `Ocupado por: ${a.reservadoPor || '—'}`;
+        btn.disabled = true;
+      } else {
+        btn.title = `Asiento ${i} — ${a.zona}`;
+        btn.addEventListener('click', () => Eventos.clickAsiento(i, btn));
+      }
+      const target = a.columna <= 5 ? el.gridIzq : el.gridDer;
+      target.appendChild(btn);
+    }
+  }
+
+  function renderEstadisticas() {
+    const e = Asientos.estadisticas();
+    el.statDisp.textContent = e.disponibles;
+    el.statOcup.textContent = e.ocupados;
+    el.statOcupSub.textContent = `${e.porcentaje}% capacidad`;
+    el.statPrefer.textContent = `${e.preferenciales}/${e.preferencialesTotal}`;
+    el.statMov.textContent = `${e.movilidad}/${e.movilidadTotal}`;
+    el.progreso.style.width = `${e.porcentaje}%`;
+  }
+
+  async function renderTablaAdmin(filtros = {}) {
+    const tbody = document.getElementById('tablaAdminBody');
+    tbody.innerHTML = '<tr><td colspan="8" class="vacio">Cargando...</td></tr>';
+    let reservas = [];
+    try { reservas = await Reservas.listar(filtros); }
+    catch { tbody.innerHTML = '<tr><td colspan="8" class="vacio">Error al cargar</td></tr>'; return; }
+
+    if (!reservas.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="vacio">No hay reservas registradas</td></tr>';
+      return;
+    }
+    tbody.innerHTML = reservas.map(r => `
+      <tr>
+        <td><b style="color: var(--dorado);">#${r.asiento}</b></td>
+        <td style="font-family: monospace; font-size: 0.8rem; color: var(--dorado-claro);">${r.codigo || '—'}</td>
+        <td>${r.nombre}</td>
+        <td>${r.telefono || '—'}</td>
+        <td>${r.email || '—'}</td>
+        <td><span class="badge badge--${r.estado}">${r.estado}</span></td>
+        <td style="font-size: 0.78rem; color: var(--gris-medio);">${Utils.formatearFecha(r.fecha)}</td>
+        <td>
+          <button class="btn btn--peligro btn--sm" data-cancelar="${r.codigo}">Cancelar</button>
+          ${r.estado !== 'asistio' && r.estado !== 'cancelada' ? `<button class="btn btn--exito btn--sm" data-checkin="${r.codigo}">Check-in</button>` : ''}
+        </td>
+      </tr>`).join('');
+
+    tbody.querySelectorAll('[data-cancelar]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!Utils.confirmar(`¿Cancelar reserva ${btn.dataset.cancelar}?`)) return;
+        try { await Reservas.cancelar(btn.dataset.cancelar); Utils.toast('Cancelada', 'ok'); Vista.renderTodo(); Vista.renderTablaAdmin(filtros); }
+        catch (e) { Utils.toast(e.message, 'error'); }
+      });
     });
-    
-    // Mostrar mensaje de éxito
-    offeringSuccess.classList.remove('hidden');
-    offeringForm.reset();
-    
-    // Ocultar mensaje después de 5 segundos
-    setTimeout(() => {
-        offeringSuccess.classList.add('hidden');
-    }, 5000);
-});
+    tbody.querySelectorAll('[data-checkin]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        try { await Reservas.checkin(btn.dataset.checkin); Utils.toast('Check-in ok', 'ok'); Vista.renderTablaAdmin(filtros); }
+        catch (e) { Utils.toast(e.message, 'error'); }
+      });
+    });
+  }
 
-// 5. Scroll suave para enlaces del menú
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if(targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if(targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-            });
-            
-            // Cerrar sidebar en móviles
-            if(window.innerWidth < 768) {
-                sidebar.classList.add('-translate-x-full');
-            }
+  async function renderMisReservas() {
+    const cont = document.getElementById('listaMisReservas');
+    const mias = Reservas.misReservasLocales();
+    if (!mias.length) { cont.innerHTML = '<div class="vacio">No tienes reservas guardadas en este dispositivo</div>'; return; }
+
+    const detalles = [];
+    for (const m of mias) {
+      try { const r = await Reservas.porCodigo(m.codigo); if (r) detalles.push(r); } catch {}
+    }
+    if (!detalles.length) { cont.innerHTML = '<div class="vacio">No hay reservas válidas</div>'; return; }
+
+    cont.innerHTML = detalles.map(r => `
+      <div class="tarjeta-reserva" style="text-align: left; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-family: monospace; color: var(--dorado); font-weight: 700;">${r.codigo}</span>
+          <span class="badge badge--${r.estado}">${r.estado}</span>
+        </div>
+        <div class="tarjeta-reserva__dato"><span>Asiento</span><span>#${r.asiento}</span></div>
+        <div class="tarjeta-reserva__dato"><span>Nombre</span><span>${r.nombre}</span></div>
+        <div class="tarjeta-reserva__dato"><span>Fecha</span><span>${Utils.formatearFecha(r.fecha)}</span></div>
+        ${r.estado === 'activa' ? `<button class="btn btn--peligro btn--sm" style="margin-top: 12px; width: 100%;" data-cancelar-mia="${r.codigo}">Cancelar reserva</button>` : ''}
+      </div>`).join('');
+
+    cont.querySelectorAll('[data-cancelar-mia]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!Utils.confirmar('¿Cancelar esta reserva?')) return;
+        try { await Reservas.cancelar(btn.dataset.cancelarMia); Utils.toast('Cancelada', 'ok'); Vista.renderTodo(); Vista.renderMisReservas(); }
+        catch (e) { Utils.toast(e.message, 'error'); }
+      });
+    });
+  }
+
+  async function renderEstadisticasPanel() {
+    const todas = await Reservas.listar();
+    const st = Reservas.estadisticas(todas);
+    document.getElementById('estaTotal').textContent = st.total;
+    document.getElementById('estaActivas').textContent = st.activas;
+    document.getElementById('estaAsistieron').textContent = st.asistieron;
+    document.getElementById('estaCanceladas').textContent = st.canceladas;
+
+    const zonas = ['preferencial', 'general', 'movilidad'];
+    const nombres = { preferencial: '★ Preferencial', general: 'General', movilidad: '♿ Movilidad' };
+    const porZona = zonas.map(z => {
+      const aZ = Asientos.todos().filter(a => a.zona === z);
+      const ocup = aZ.filter(a => a.estado === 'ocupado').length;
+      return { nombre: nombres[z], ocupados: ocup, total: aZ.length, pct: aZ.length ? Math.round(ocup / aZ.length * 100) : 0 };
+    });
+    document.getElementById('graficoZonas').innerHTML = porZona.map(z => `
+      <div class="grafico-fila">
+        <span class="grafico-label">${z.nombre}</span>
+        <div class="grafico-barra"><div class="grafico-barra__fill" style="width:${z.pct}%"></div></div>
+        <span class="grafico-valor">${z.ocupados}/${z.total}</span>
+      </div>`).join('');
+
+    const porHora = {};
+    todas.forEach(r => { if (r.fecha) { const h = new Date(r.fecha).getHours(); porHora[h] = (porHora[h] || 0) + 1; } });
+    const horasArr = Object.entries(porHora).sort((a, b) => a[0] - b[0]).slice(0, 10);
+    const max = Math.max(...horasArr.map(h => h[1]), 1);
+    document.getElementById('graficoHoras').innerHTML = horasArr.length
+      ? horasArr.map(([h, n]) => `
+          <div class="grafico-fila">
+            <span class="grafico-label">${String(h).padStart(2,'0')}:00</span>
+            <div class="grafico-barra"><div class="grafico-barra__fill" style="width:${n/max*100}%"></div></div>
+            <span class="grafico-valor">${n}</span>
+          </div>`).join('')
+      : '<div class="vacio">Sin datos aún</div>';
+  }
+
+  function renderTodo() { renderAsientos(); renderEstadisticas(); }
+
+  return { renderAsientos, renderEstadisticas, renderTablaAdmin, renderMisReservas, renderEstadisticasPanel, renderTodo };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   EVENTOS
+   ═══════════════════════════════════════════════════════════════ */
+const Eventos = (() => {
+  let asientoSeleccionado = null;
+
+  function init() {
+    document.querySelectorAll('.nav__btn').forEach(btn => {
+      btn.addEventListener('click', () => cambiarVista(btn.dataset.vista, btn));
+    });
+    document.getElementById('modalCerrar').addEventListener('click', cerrarModal);
+    document.getElementById('btnCancelarReserva').addEventListener('click', cerrarModal);
+    document.getElementById('modalReserva').addEventListener('click', e => { if (e.target.id === 'modalReserva') cerrarModal(); });
+    document.getElementById('btnConfirmar').addEventListener('click', confirmarReserva);
+    document.getElementById('inputNombre').addEventListener('keypress', e => { if (e.key === 'Enter') confirmarReserva(); });
+
+    document.getElementById('btnEnlace').addEventListener('click', copiarEnlace);
+    document.getElementById('btnExportar').addEventListener('click', exportarCSV);
+    document.getElementById('btnRefrescar').addEventListener('click', async () => {
+      Utils.toast('Actualizando...', 'info');
+      try { await Reservas.cargarAsientos(); Vista.renderTodo(); Utils.toast('Vista actualizada', 'ok'); }
+      catch { Utils.toast('Error al actualizar', 'error'); }
+    });
+
+    document.getElementById('btnBuscar').addEventListener('click', buscar);
+    document.getElementById('inputBusqueda').addEventListener('keypress', e => { if (e.key === 'Enter') buscar(); });
+
+    document.getElementById('btnRefrescarAdmin').addEventListener('click', () => {
+      Vista.renderTablaAdmin({ estado: document.getElementById('filtroEstado').value, busqueda: document.getElementById('inputBusquedaAdmin').value.trim() });
+    });
+    document.getElementById('inputBusquedaAdmin').addEventListener('input', () => {
+      Vista.renderTablaAdmin({ estado: document.getElementById('filtroEstado').value, busqueda: document.getElementById('inputBusquedaAdmin').value.trim() });
+    });
+    document.getElementById('filtroEstado').addEventListener('change', () => {
+      Vista.renderTablaAdmin({ estado: document.getElementById('filtroEstado').value, busqueda: document.getElementById('inputBusquedaAdmin').value.trim() });
+    });
+    document.getElementById('btnExportarAdmin').addEventListener('click', exportarCSV);
+    document.getElementById('btnResetAdmin').addEventListener('click', resetearAdmin);
+
+    document.getElementById('btnLimpiarMias').addEventListener('click', () => {
+      if (Utils.confirmar('¿Borrar el historial local de este dispositivo?\n(Las reservas en la nube NO se eliminan)')) {
+        Reservas.limpiarMisReservasLocales();
+        Vista.renderMisReservas();
+        Utils.toast('Historial local limpiado', 'ok');
+      }
+    });
+  }
+
+  function cambiarVista(nombre, btnActivo) {
+    document.querySelectorAll('.nav__btn').forEach(b => b.classList.remove('activo'));
+    btnActivo.classList.add('activo');
+    document.querySelectorAll('.admin-seccion').forEach(s => s.classList.remove('activa'));
+    document.getElementById(`vista-${nombre}`).classList.add('activa');
+    if (nombre === 'admin') Vista.renderTablaAdmin();
+    else if (nombre === 'mis-reservas') Vista.renderMisReservas();
+    else if (nombre === 'estadisticas') Vista.renderEstadisticasPanel();
+  }
+
+  function clickAsiento(numero, elemento) {
+    if (Asientos.estaOcupado(numero)) return;
+    document.querySelectorAll('.asiento--seleccionado').forEach(a => a.classList.remove('asiento--seleccionado'));
+    elemento.classList.add('asiento--seleccionado');
+    asientoSeleccionado = numero;
+    document.getElementById('modalAsientoNum').textContent = `#${numero}`;
+    document.getElementById('modalContenidoForm').style.display = 'block';
+    document.getElementById('modalContenidoExito').style.display = 'none';
+    document.getElementById('modalReserva').classList.add('activo');
+    setTimeout(() => document.getElementById('inputNombre').focus(), 150);
+  }
+
+  function cerrarModal() {
+    document.getElementById('modalReserva').classList.remove('activo');
+    document.querySelectorAll('.asiento--seleccionado').forEach(a => a.classList.remove('asiento--seleccionado'));
+    asientoSeleccionado = null;
+    ['inputNombre','inputTelefono','inputEdad','inputEmail','inputNotas'].forEach(id => document.getElementById(id).value = '');
+  }
+
+  async function confirmarReserva() {
+    const btn = document.getElementById('btnConfirmar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Guardando...';
+    try {
+      const reserva = await Reservas.crear({
+        asiento: asientoSeleccionado,
+        nombre: document.getElementById('inputNombre').value,
+        telefono: document.getElementById('inputTelefono').value,
+        email: document.getElementById('inputEmail').value,
+        edad: document.getElementById('inputEdad').value,
+        notas: document.getElementById('inputNotas').value
+      });
+      mostrarExitoReserva(reserva);
+      Vista.renderTodo();
+    } catch (e) {
+      Utils.toast(e.message, 'error');
+      btn.disabled = false;
+      btn.textContent = '✓ Confirmar reserva';
+      if (/ocupado/i.test(e.message)) {
+        await Reservas.cargarAsientos();
+        Vista.renderTodo();
+        cerrarModal();
+      }
+    }
+  }
+
+  function mostrarExitoReserva(reserva) {
+    document.getElementById('modalContenidoForm').style.display = 'none';
+    const cont = document.getElementById('modalContenidoExito');
+    cont.style.display = 'block';
+    cont.innerHTML = `
+      <div style="text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 8px;">✓</div>
+        <h3 style="color: var(--dorado); font-size: 1.3rem; margin-bottom: 8px;">¡Reserva confirmada!</h3>
+        <p style="color: var(--gris-medio); font-size: 0.9rem; margin-bottom: 18px;">Guarda tu código para verificar tu entrada.</p>
+        <div class="tarjeta-reserva">
+          <div style="font-size: 0.78rem; color: var(--gris-medio); letter-spacing: 1.5px; text-transform: uppercase;">Código de reserva</div>
+          <div class="tarjeta-reserva__codigo">${reserva.codigo}</div>
+          <div class="tarjeta-reserva__qr" id="qrContainer"></div>
+          <div class="tarjeta-reserva__dato"><span>Asiento</span><span>#${reserva.asiento}</span></div>
+          <div class="tarjeta-reserva__dato"><span>Nombre</span><span>${reserva.nombre}</span></div>
+          ${reserva.telefono ? `<div class="tarjeta-reserva__dato"><span>Teléfono</span><span>${reserva.telefono}</span></div>` : ''}
+          ${reserva.email ? `<div class="tarjeta-reserva__dato"><span>Email</span><span>${reserva.email}</span></div>` : ''}
+        </div>
+        <button class="btn btn--primario" style="margin-top: 18px;" onclick="Eventos.cerrarModalExito()">Aceptar</button>
+      </div>`;
+    generarQR(reserva.codigo, 'qrContainer');
+  }
+
+  function cerrarModalExito() { cerrarModal(); }
+
+  function generarQR(texto, contenedorId) {
+    const cont = document.getElementById(contenedorId);
+    if (!cont) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 200;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,200,200);
+    let hash = 0;
+    for (let i = 0; i < texto.length; i++) { hash = ((hash << 5) - hash) + texto.charCodeAt(i); hash |= 0; }
+    ctx.fillStyle = '#0a1f44';
+    const tam = 25, celdas = 8;
+    const marcadores = [[0,0],[celdas-3,0],[0,celdas-3]];
+    for (let y = 0; y < celdas; y++) for (let x = 0; x < celdas; x++) {
+      const esMarcador = marcadores.some(([mx,my]) => x>=mx && x<mx+3 && y>=my && y<my+3);
+      let pintar;
+      if (esMarcador) pintar = !(x === 1 && y === 1);
+      else pintar = ((hash >> (x + y)) & 1) === 1;
+      if (pintar) ctx.fillRect(x*tam+5, y*tam+5, tam-1, tam-1);
+    }
+    cont.innerHTML = ''; cont.appendChild(canvas);
+  }
+
+  async function copiarEnlace() {
+    try { await navigator.clipboard.writeText(window.location.href); Utils.toast('Enlace copiado', 'ok'); }
+    catch { Utils.toast('Copia manual: ' + window.location.href, 'info'); }
+  }
+
+  async function exportarCSV() {
+    const reservas = await Reservas.listar();
+    if (!reservas.length) { Utils.toast('No hay reservas', 'info'); return; }
+    const filas = [['Asiento','Código','Nombre','Teléfono','Email','Edad','Estado','Check-in','Fecha']];
+    for (const r of reservas) {
+      filas.push([r.asiento, r.codigo, r.nombre, r.telefono||'', r.email||'', r.edad||'', r.estado, r.checkin ? 'Sí' : 'No', Utils.formatearFecha(r.fecha)]);
+    }
+    const csv = filas.map(f => f.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
+    a.download = `reservas_icdnj_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click(); URL.revokeObjectURL(url);
+    Utils.toast('CSV descargado', 'ok');
+  }
+
+  async function buscar() {
+    const q = document.getElementById('inputBusqueda').value.trim();
+    const cont = document.getElementById('resultadoBusqueda');
+    if (!q) { cont.innerHTML = ''; return; }
+    const res = await Reservas.listar({ busqueda: q });
+    if (!res.length) { cont.innerHTML = '<div class="vacio">No se encontraron reservas</div>'; return; }
+    cont.innerHTML = res.map(r => `
+      <div class="tarjeta-reserva" style="text-align: left; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-family: monospace; color: var(--dorado); font-weight: 700;">${r.codigo}</span>
+          <span class="badge badge--${r.estado}">${r.estado}</span>
+        </div>
+        <div class="tarjeta-reserva__dato"><span>Asiento</span><span>#${r.asiento}</span></div>
+        <div class="tarjeta-reserva__dato"><span>Nombre</span><span>${r.nombre}</span></div>
+        ${r.telefono ? `<div class="tarjeta-reserva__dato"><span>Teléfono</span><span>${r.telefono}</span></div>` : ''}
+        <div class="tarjeta-reserva__dato"><span>Fecha</span><span>${Utils.formatearFecha(r.fecha)}</span></div>
+      </div>`).join('');
+  }
+
+  async function resetearAdmin() {
+    if (!Utils.confirmar('⚠️ ¿Borrar TODAS las reservas?\n\nEsta acción no se puede deshacer.')) return;
+    if (!Utils.confirmar('Confirma otra vez: se perderán todos los registros.')) return;
+    try {
+      await Reservas.resetearTodo();
+      Vista.renderTodo();
+      Vista.renderTablaAdmin();
+      Utils.toast('Reservas eliminadas', 'ok');
+    } catch (e) { Utils.toast('Error: ' + e.message, 'error'); }
+  }
+
+  return { init, clickAsiento, cerrarModal, cerrarModalExito };
+})();
+
+/* ═══════════════════════════════════════════════════════════════
+   INICIALIZACIÓN + REALTIME
+   ═══════════════════════════════════════════════════════════════ */
+(async function main() {
+  try {
+    Asientos.inicializar();
+    Vista.renderTodo();
+    Eventos.init();
+    await Reservas.cargarAsientos();
+    Vista.renderTodo();
+    Utils.setConexion(true);
+
+    Reservas.suscribirse(() => {
+      Vista.renderTodo();
+      const modalAbierto = document.getElementById('modalReserva').classList.contains('activo');
+      if (modalAbierto) {
+        const num = parseInt(document.getElementById('modalAsientoNum').textContent.replace('#',''));
+        if (Asientos.estaOcupado(num)) {
+          Utils.toast('Ese asiento acaba de ser ocupado', 'error');
+          Eventos.cerrarModal();
         }
+      }
     });
-});
 
-// 6. Detectar día actual en calendario
-const today = new Date();
-const currentDay = today.getDate();
-const calendarDays = document.querySelectorAll('.calendar-day');
-calendarDays.forEach(day => {
-    if(parseInt(day.textContent) === currentDay) {
-        day.classList.add('border-2', 'border-yellow-400');
-    }
-});
+    // Reconexión automática al volver online
+    window.addEventListener('online', async () => {
+      try { await Reservas.cargarAsientos(); Vista.renderTodo(); Utils.setConexion(true); } catch {}
+    });
+    window.addEventListener('offline', () => Utils.setConexion(false));
+
+    console.log('%c✝ ICDNJ · Reservas en vivo (Supabase)', 'color:#d4af37;font-size:16px;font-weight:bold;');
+  } catch (e) {
+    console.error(e);
+    Utils.toast('Error al conectar con la base de datos', 'error');
+    Utils.setConexion(false);
+  }
+})();
 </script>
+
 </body>
 </html>
