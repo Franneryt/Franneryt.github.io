@@ -62,7 +62,7 @@ body::before {
 .contenedor { max-width: 1100px; margin: 0 auto; }
 .panel { background: rgba(255,255,255,0.035); border: 1px solid rgba(212,175,55,0.22); border-radius: var(--radio-lg); padding: 28px 26px; backdrop-filter: blur(10px); box-shadow: var(--sombra-lg); }
 .nav { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-.nav__btn { padding: 9px 18px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.25); color: var(--gris-claro); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.25s; font-family: inherit; }
+.nav__btn { padding: 9px 18px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.25); color: var(--gris-claro); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.25s; font-family: inherit; display: flex; align-items: center; gap: 6px;}
 .nav__btn:hover { background: rgba(212,175,55,0.15); border-color: var(--dorado); color: var(--dorado-claro); }
 .nav__btn.activo { background: linear-gradient(135deg, var(--dorado), var(--dorado-oscuro)); color: var(--azul-profundo); border-color: var(--dorado); font-weight: 600; box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
 .estado { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 26px; }
@@ -261,7 +261,7 @@ body::before {
       <button class="nav__btn activo" data-vista="reservar">🎫 Reservar</button>
       <button class="nav__btn" data-vista="mis-reservas">📋 Mis reservas</button>
       <button class="nav__btn" data-vista="buscar">🔍 Buscar</button>
-      <button class="nav__btn" data-vista="admin">⚙️ Admin</button>
+      <button class="nav__btn" data-vista="admin">🔒 Admin</button>
       <button class="nav__btn" data-vista="estadisticas">📊 Estadísticas</button>
     </nav>
 
@@ -451,7 +451,7 @@ body::before {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════
-   CONFIGURACIÓN — Supabase y logo
+   CONFIGURACIÓN — Supabase, logo y contraseña de Admin
    ═══════════════════════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://lkxmgpegbvlcoxkehnok.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_6Mnch3noo6k5ep1w7GCGVQ_jLKMlt3u';
@@ -459,6 +459,9 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // URL del logo (cámbiala si algún día caduca)
 const LOGO_URL = 'https://img.sanishtech.com/u/51850a51dd601d84bd1eae78d70fa50a.png';
+
+// 🔒 CONTRASEÑA DE ADMINISTRADOR (Cámbiala por la que tú quieras)
+const ADMIN_PASSWORD = 'ICDNJ2026';
 
 /* ═══════════════════════════════════════════════════════════════
    UTILIDADES
@@ -1043,6 +1046,7 @@ const Vista = (() => {
    ═══════════════════════════════════════════════════════════════ */
 const Eventos = (() => {
   let asientoSeleccionado = null;
+  let adminAutorizado = false; // 🔒 Control de acceso para Admin
 
   function init() {
     document.querySelectorAll('.nav__btn').forEach(btn => {
@@ -1086,7 +1090,29 @@ const Eventos = (() => {
     });
   }
 
+  // 🔒 Función de validación de contraseña
+  function pedirPasswordAdmin() {
+    if (adminAutorizado) return true;
+
+    const pass = prompt("🔒 Área restringida. Por favor, ingresa la contraseña de administrador:");
+    if (pass === null) return false; // Canceló
+
+    if (pass === ADMIN_PASSWORD) {
+      adminAutorizado = true;
+      Utils.toast('Acceso concedido', 'ok');
+      return true;
+    } else {
+      Utils.toast('Contraseña incorrecta', 'error');
+      return false;
+    }
+  }
+
   function cambiarVista(nombre, btnActivo) {
+    // Si intenta entrar a Admin sin autorización, pedimos contraseña
+    if (nombre === 'admin') {
+      if (!pedirPasswordAdmin()) return; // Si cancela o falla, no hace nada
+    }
+
     document.querySelectorAll('.nav__btn').forEach(b => b.classList.remove('activo'));
     btnActivo.classList.add('activo');
     document.querySelectorAll('.admin-seccion').forEach(s => s.classList.remove('activa'));
@@ -1283,20 +1309,16 @@ const Eventos = (() => {
     Vista.renderTodo();
     Eventos.init();
     
-    // Intentar cargar los asientos de la base de datos
     await Reservas.cargarAsientos();
     Vista.renderTodo();
     
-    // 🛠️ TRUCO DE SEGURIDAD: Si el Realtime tarda o está apagado,
-    // forzamos el estado a "Conectado" a los 2.5 segundos para que no se quede en "Conectando..."
     const timeoutConexion = setTimeout(() => {
       Utils.setConexion(true);
       console.log('Conexión forzada a verde (Timeout de Realtime)');
     }, 2500);
 
-    // Suscribirse a los cambios en vivo
     Reservas.suscribirse(() => {
-      clearTimeout(timeoutConexion); // Si conecta bien rápido, cancelamos el timeout
+      clearTimeout(timeoutConexion);
       Vista.renderTodo();
       const modalAbierto = document.getElementById('modalReserva').classList.contains('activo');
       if (modalAbierto) {
